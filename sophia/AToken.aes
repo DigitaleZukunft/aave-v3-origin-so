@@ -1,0 +1,30 @@
+contract AToken =
+
+  record state =
+    { total_shares : int
+    , balances : map(address, int)
+    }
+
+  entrypoint init() : state =
+    { total_shares = 0
+    , balances = {}
+    }
+
+  entrypoint balance_of(owner : address) : int =
+    Map.lookup_default(owner, state.balances, 0)
+
+  entrypoint mint(to : address, shares : int) : state =
+    require(shares > 0, "INVALID_SHARES")
+    let s = state
+    let bal = Map.lookup_default(to, s.balances, 0)
+    put(s{ total_shares = s.total_shares + shares
+          , balances = Map.insert(to, bal + shares, s.balances) })
+    state
+
+  entrypoint burn(from : address, shares : int) : state =
+    let s = state
+    let bal = Map.lookup_default(from, s.balances, 0)
+    require(bal >= shares, "INSUFFICIENT_BALANCE")
+    put(s{ total_shares = s.total_shares - shares
+          , balances = Map.insert(from, bal - shares, s.balances) })
+    state

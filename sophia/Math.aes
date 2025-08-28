@@ -1,0 +1,7 @@
+namespace Math =
+
+  function wad_mul(a : int, b : int) : int =
+    (a * b) / 1000000000000000000
+
+  function wad_div(a : int, b : int) : int =
+    (a * 1000000000000000000) / b
