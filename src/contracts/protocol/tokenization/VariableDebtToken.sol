@@ -43,7 +43,6 @@ abstract contract VariableDebtToken is DebtTokenBase, ScaledBalanceTokenBase, IV
     IPool pool,
     address rewardsController
   )
-    DebtTokenBase()
     ScaledBalanceTokenBase(
       pool,
       'VARIABLE_DEBT_TOKEN_IMPL',

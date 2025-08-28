@@ -1,0 +1,30 @@
+contract VariableDebtToken =
+
+  record state =
+    { total_debt : int
+    , debts : map(address, int)
+    }
+
+  entrypoint init() : state =
+    { total_debt = 0
+    , debts = {}
+    }
+
+  entrypoint debt_of(user : address) : int =
+    Map.lookup_default(user, state.debts, 0)
+
+  entrypoint mint_debt(on_behalf : address, amount : int) : state =
+    require(amount > 0, "INVALID_AMOUNT")
+    let s = state
+    let d = Map.lookup_default(on_behalf, s.debts, 0)
+    put(s{ total_debt = s.total_debt + amount
+          , debts = Map.insert(on_behalf, d + amount, s.debts) })
+    state
+
+  entrypoint burn_debt(from : address, amount : int) : state =
+    let s = state
+    let d = Map.lookup_default(from, s.debts, 0)
+    require(d >= amount, "INSUFFICIENT_DEBT")
+    put(s{ total_debt = s.total_debt - amount
+          , debts = Map.insert(from, d - amount, s.debts) })
+    state

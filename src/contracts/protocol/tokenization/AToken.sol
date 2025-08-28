@@ -45,7 +45,7 @@ abstract contract AToken is VersionedInitializable, ScaledBalanceTokenBase, EIP7
     IPool pool,
     address rewardsController,
     address treasury
-  ) ScaledBalanceTokenBase(pool, 'ATOKEN_IMPL', 'ATOKEN_IMPL', 0, rewardsController) EIP712Base() {
+  ) ScaledBalanceTokenBase(pool, 'ATOKEN_IMPL', 'ATOKEN_IMPL', 0, rewardsController) {
     require(treasury != address(0), Errors.ZeroAddressNotValid());
     TREASURY = treasury;
   }
