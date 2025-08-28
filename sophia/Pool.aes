@@ -1,0 +1,35 @@
+contract Pool =
+
+  record state =
+    { total_supplied : int
+    , total_borrowed : int
+    }
+
+  entrypoint init() : state =
+    { total_supplied = 0
+    , total_borrowed = 0
+    }
+
+  entrypoint supply(amount : int) : state =
+    require(amount > 0, "INVALID_AMOUNT")
+    let s = state
+    put(s{ total_supplied = s.total_supplied + amount })
+    state
+
+  entrypoint withdraw(amount : int) : state =
+    let s = state
+    require(amount <= s.total_supplied, "INSUFFICIENT_LIQUIDITY")
+    put(s{ total_supplied = s.total_supplied - amount })
+    state
+
+  entrypoint borrow(amount : int) : state =
+    require(amount > 0, "INVALID_AMOUNT")
+    let s = state
+    put(s{ total_borrowed = s.total_borrowed + amount })
+    state
+
+  entrypoint repay(amount : int) : state =
+    let s = state
+    require(amount <= s.total_borrowed, "INVALID_REPAY")
+    put(s{ total_borrowed = s.total_borrowed - amount })
+    state
