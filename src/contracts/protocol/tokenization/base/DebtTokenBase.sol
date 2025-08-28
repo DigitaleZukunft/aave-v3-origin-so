@@ -32,7 +32,7 @@ abstract contract DebtTokenBase is
   /**
    * @dev Constructor.
    */
-  constructor() EIP712Base() {
+  constructor() {
     // Intentionally left blank
   }
 
